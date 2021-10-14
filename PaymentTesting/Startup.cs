@@ -3,12 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using DummyPay.Extensions;
 
 namespace PaymentTesting
 {
@@ -24,7 +19,10 @@ namespace PaymentTesting
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddDummyPayHttpClient(Configuration);
+            services.AddDummyPayServices();
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,8 +32,19 @@ namespace PaymentTesting
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
 
-            app.UseMvc();
+            app.UseStaticFiles();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }

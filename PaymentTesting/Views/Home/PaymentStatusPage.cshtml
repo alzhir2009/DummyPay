@@ -1,0 +1,27 @@
+﻿@model PaymentStatusViewModel
+@{
+    ViewData["Title"] = "Home Page";
+    var request = Context.Request;
+    var redirectUrl = $"{request.Scheme}://{request.Host}/ThreeDSResponseUrl";
+}
+
+<div class="text-center">
+    <div class="row">
+        Status: @Model.Status
+    </div>
+    <div class="row">
+        OrderId: @Model.OrderId
+    </div>
+    <div class="row">
+        TransactionId: @Model.TransactionId
+    </div>
+    <div class="row">
+        Amount: @Model.Amount
+    </div>
+    <div class="row">
+        Currency: @Model.Currency
+    </div>
+    <div class="row">
+        Last 4 digits: @Model.LastFourDigits
+    </div>
+</div>

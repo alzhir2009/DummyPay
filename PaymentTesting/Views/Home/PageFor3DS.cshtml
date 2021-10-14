@@ -1,0 +1,15 @@
+﻿@model ThreeDSViewModel
+@{
+    ViewData["Title"] = "Home Page";
+    var request = Context.Request;
+    var redirectUrl = $"{request.Scheme}://{request.Host}/ThreeDSResponseUrl";
+}
+
+<div class="text-center">
+    <form action="@Model.Url" method="@Model.Method">
+        <input type="text" readonly="readonly" name="MD" value="@Model.TransactionId" />
+        <input type="text" readonly="readonly" name="TermUrl" value="@redirectUrl" />
+        <input type="text" readonly="readonly" name="PaReq" value="@Model.PaReq" />
+        <input type="submit" title="Submit" />
+    </form>
+</div>
